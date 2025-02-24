@@ -12,7 +12,10 @@ CORS(app)
 
 # Configuración de SQLite
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "bd_app/tareas.db")
+DB_PATH = os.path.join("/tmp", "tareas.db")  #Guarda la BD en /tmp/
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "bd_app/tareas.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Vincular db con la app de Flask

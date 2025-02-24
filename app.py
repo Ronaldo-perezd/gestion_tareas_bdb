@@ -11,7 +11,7 @@ api = Api(app)
 CORS(app)
 
 # Configuración de SQLite
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join("/tmp", "tareas.db")  #Guarda la BD en /tmp/
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
@@ -39,9 +39,13 @@ def not_found(error):
 def bad_request_error(error):
     return jsonify({"error": "Solicitud incorrecta"}), 400
 
+# Asegurar la creación de la BD antes de iniciar el servidor
+with app.app_context():
+    db.create_all()  # Crea la BD si no existe
+
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()  # Crea la BD si no existe
+    # with app.app_context():
+    #     db.create_all()  # Crea la BD si no existe
     # app.run(port=8077, debug=True)
     port = int(os.environ.get("PORT", 5000))  # Render usa una variable de entorno para el puerto
     app.run(host="0.0.0.0", port=port, debug=True)
